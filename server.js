@@ -1,16 +1,25 @@
+
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const app = express();
 
+// Static fayllar
+app.use(express.static(__dirname));
 app.use(bodyParser.json());
-app.use(express.static(__dirname)); // HTML va CSS fayllarni ko‘rsatadi
 
-// 🔥 O'zingizning token va chat id ni qo'ying
-const BOT_TOKEN = "8666110549:AAFJJPvI26rmx-SwDf1OSRKXNOiUjh2BZXk";
-const CHAT_ID = "8026244494";
+// 🔥 Environment Variables orqali olish
+const BOT_TOKEN = process.env.BOT_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
 
-// POST endpoint foydalanuvchi formani yuborishi uchun
+// / route
+app.get("/", (req, res) => {
+    res.send("Server ishlayapti!");
+});
+
+// /send route
 app.post("/send", async (req, res) => {
     const { ism, yosh } = req.body;
     const message = `📩 Yangi foydalanuvchi:\nIsm: ${ism}\nYosh: ${yosh}`;
@@ -27,7 +36,8 @@ app.post("/send", async (req, res) => {
     }
 });
 
-// Server 3000-portda ishlaydi
-app.listen(3000, () => {
-    console.log("✅ Server 3000-portda ishlayapti");
+// Port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Server ${PORT}-portda ishlayapti`);
 });
