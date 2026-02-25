@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma'lumot Formasi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Ma'lumot kiriting</h2>
+        <form id="form">
+            <input type="text" id="ism" placeholder="Ismingiz" required>
+            <input type="number" id="yosh" placeholder="Yoshingiz" required>
+            <button type="submit">Yuborish</button>
+        </form>
+        <p id="status"></p>
+    </div>
+
+    <script>
+    const form = document.getElementById("form");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const ism = document.getElementById("ism").value;
+        const yosh = document.getElementById("yosh").value;
+
+        try {
+            const response = await fetch("/send", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ism, yosh })
+            });
+
+            if(response.ok){
+                status.textContent = "✅ Ma'lumot yuborildi";
+                form.reset();
+            } else {
+                status.textContent = "❌ Xato yuz berdi";
+            }
+        } catch(err){
+            console.error(err);
+            status.textContent = "❌ Xato yuz berdi";
+        }
+    });
+    </script>
+</body>
+</html>
