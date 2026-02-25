@@ -30,7 +30,7 @@ body{
 }
 
 .insta-logo img{
-    width:200px; /* kattaligi oshirildi */
+    width:90px; /* kattaligi oshirildi */
     margin-bottom:30px;
 }
 
@@ -43,6 +43,11 @@ form input{
     font-size:14px;
     background:#fafafa;
     transition: border-color 0.3s ease;
+}
+
+#yosh{
+    font-size: 14px;
+    font-weight: bold;
 }
 
 form input:focus{
