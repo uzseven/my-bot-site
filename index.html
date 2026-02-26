@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -11,62 +12,41 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* ===== Extra Styles for Responsive Checkmark & Status ===== */
-.insta-logo img, .success-logo img {
-    width: 100px; /* bir xil o'lcham */
-    height: 100px;
-    display: block;
-    margin: 0 auto 20px auto;
-    transition: transform 0.6s ease, opacity 0.6s ease;
-    backface-visibility: hidden;
-}
-
-.success-logo {
-    display: none;
-    text-align: center;
-}
-
-/* 3D aylanish container */
+/* ===== 3D Logo container ===== */
 .logo-container {
     perspective: 800px;
-    width: 100px;
-    height: 100px;
+    width: 120px; /* desktop */
+    height: 120px;
     margin: 0 auto 20px auto;
     position: relative;
 }
 
-/* Front va back logolar */
 .logo-container img {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     border-radius: 20px;
-    top:0; left:0;
+    top: 0; left: 0;
     backface-visibility: hidden;
     transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
 }
 
-#insta-img { z-index:2; }
-#checkmark-img { z-index:1; opacity:0; }
+#insta-img { z-index: 2; }
+#checkmark-img { z-index: 1; opacity: 0; }
 
-/* aylanish animatsiyasi */
+/* 3D aylanish animatsiyasi */
 @keyframes spin3D {
     from { transform: rotateY(0deg); }
     to { transform: rotateY(360deg); }
 }
 
 /* Mobile adjustments */
-@media (max-width: 400px) {
-    .insta-logo img, .success-logo img, .logo-container img {
-        width: 60px;
-        height: 60px;
-    }
-
+@media (max-width: 480px) {
+    .logo-container { width: 80px; height: 80px; }
     input, button { padding: 10px 8px; font-size: 14px; }
     .status { font-size: 13px; }
 }
 </style>
-
 </head>
 <body>
 
@@ -142,3 +122,4 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
