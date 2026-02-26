@@ -13,6 +13,13 @@ body{
     min-height:100vh;
 }
 
+.success-logo img {
+    width: 70px;  /* ekran uchun o'lchamini moslashtiring */
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out;
+}
+
 .container{
     width:100%;
     max-width:350px;
